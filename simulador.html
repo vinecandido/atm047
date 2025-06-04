@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prova ATM047 - Indicadores de Desempenho</title>
+  <script src="atm047_questions.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; background: #f7f9fc; }
+    h1 { text-align: center; }
+    .question { background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .options label { display: block; margin-bottom: 0.5rem; }
+    button { display: block; margin: 2rem auto; padding: 0.75rem 1.5rem; font-size: 1rem; background: #0066cc; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #0055aa; }
+  </style>
+</head>
+<body>
+  <h1>Prova ATM047 - 30 Questões</h1>
+  <form id="quizForm">
+    <!-- Questões serão inseridas aqui via JavaScript -->
+  </form>
+  <button onclick="submitQuiz()">Enviar Respostas</button>
+  <script>
+    function getRandomQuestions(n) {
+      const shuffled = questions.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, n);
+    }
+
+    const selectedQuestions = getRandomQuestions(30);
+    const form = document.getElementById("quizForm");
+
+    selectedQuestions.forEach((item, index) => {
+      const container = document.createElement("div");
+      container.className = "question";
+
+      const question = document.createElement("p");
+      question.textContent = `${index + 1}. ${item.q}`;
+      container.appendChild(question);
+
+      if (item.type === "vf") {
+        const trueLabel = document.createElement("label");
+        trueLabel.innerHTML = `<input type='radio' name='q${index}' value='V' /> Verdadeiro`;
+        container.appendChild(trueLabel);
+
+        const falseLabel = document.createElement("label");
+        falseLabel.innerHTML = `<input type='radio' name='q${index}' value='F' /> Falso`;
+        container.appendChild(falseLabel);
+      } else {
+        item.options.forEach(option => {
+          const label = document.createElement("label");
+          label.innerHTML = `<input type='radio' name='q${index}' value='${option}' /> ${option}`;
+          container.appendChild(label);
+        });
+      }
+
+      form.appendChild(container);
+    });
+
+    function submitQuiz() {
+      alert("Prova enviada! Obrigado por participar.");
+    }
+  </script>
+
+</body>
+</html>
