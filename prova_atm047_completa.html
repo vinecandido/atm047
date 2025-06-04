@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prova ATM047 - Indicadores de Desempenho</title>
+  <script src="atm047_questions_with_answers.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      background: #fff;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .options label {
+      display: block;
+      margin: 0.25rem 0;
+    }
+    button {
+      display: block;
+      margin: 2rem auto;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Prova ATM047 - 30 Questões</h1>
+  <form id="quizForm"></form>
+  <button onclick="submitQuiz()">Enviar Respostas</button>
+
+  <script>
+    function getRandomQuestions(n) {
+      const shuffled = [...questions].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, n);
+    }
+
+    const selectedQuestions = getRandomQuestions(30);
+    const form = document.getElementById("quizForm");
+
+    selectedQuestions.forEach((item, index) => {
+      const container = document.createElement("div");
+      container.className = "question";
+
+      const question = document.createElement("p");
+      question.textContent = `${index + 1}. ${item.q}`;
+      container.appendChild(question);
+
+      if (item.type === "vf") {
+        ["V", "F"].forEach(val => {
+          const label = document.createElement("label");
+          label.innerHTML = `<input type='radio' name='q${index}' value='${val}' /> ${val === 'V' ? 'Verdadeiro' : 'Falso'}`;
+          container.appendChild(label);
+        });
+      } else {
+        item.options.forEach(opt => {
+          const label = document.createElement("label");
+          label.innerHTML = `<input type='radio' name='q${index}' value='${opt}' /> ${opt}`;
+          container.appendChild(label);
+        });
+      }
+
+      form.appendChild(container);
+    });
+
+    function submitQuiz() {
+      let score = 0;
+
+      selectedQuestions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name='q${i}']:checked`);
+        if (selected && selected.value === q.answer) {
+          score++;
+        }
+      });
+
+      alert(`Você acertou ${score} de ${selectedQuestions.length} questões.`);
+    }
+  </script>
+</body>
+</html>
